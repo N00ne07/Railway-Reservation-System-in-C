@@ -1,0 +1,587 @@
+if(ticket_no==0)
+{
+gotoxy(1,22);
+printf("\t\t\t\t\t");
+gotoxy(1,22);
+printf("Cancelling input...");
+return 0;
+}
+if(ticket_no<0)
+{
+gotoxy(1,22);
+printf("\t\t\t\t\t");
+gotoxy(1,22);
+printf("Error! Ticket number should be positive");
+valid=0;
+gotoxy(17,1);
+printf("\t\t\t");
+gotoxy(17,1);
+}
+}while(valid==0);
+return ticket_no;
+clrscr();
+}
+
+void view_ticket(int ticket_no)
+{
+clrscr();
+FILE*fp=fopen("d:\\railway reservation system\\bookings.dat","rb");
+FILE*fp1=fopen("d:\\railway reservation system\\addtrains.dat","rb");
+if(fp==NULL)
+{
+printf("\nNo bookings done yet");
+return;
+}
+
+Passenger pr;
+Train tr;
+while(fread(&pr,sizeof(pr),1,fp)==1)
+{
+if(ticket_no==pr.ticketno)
+{ 
+printf("DETAILS OF TICKET NO:");
+printf("%d\n",pr.ticketno);
+printf("\nName:");
+printf("%s",pr.p_name);
+printf("\nGENDER");
+printf("%c",pr.gender);
+printf("\nTRAIN NO:");
+printf("%s",pr.train_no);
+printf("\nCLASS:");
+printf("%c",pr.p_class);
+printf("\nADDRESS:");
+printf("%s",pr.address);
+printf("\nAGE:");
+printf("%d",pr.age);
+printf("\nMOBLIE NO"");
+printf("%s",pr.mob_no);
+printf(\nTICKET NO:");
+printf("%d",pr.ticketno);
+while(fread(&tr,sizeof(tr),1,fp1)==1)
+{
+if(strcmp(pr.train_no,tr.train_no)==0)
+{
+printf("\nTRAIN NAME:");
+printf("%s",tr.train_name);
+printf("\nFROM:");
+printf("%s",tr.from);
+printf("\nTO:");
+printf("%s",tr.to);
+printf("\nDEPARTURE TIME:")
+printf("%s",tr.dep_time);
+printf("\nARRIVAL TIME:");
+printf("%s",tr.arr_time);
+if(pr.p_class=='F')
+{
+printf("\nFARE:");
+printf("%d",tr.fac_fare);
+}
+else
+{
+printf("\nFARE:");
+printf("%d",tr.sac_fare);
+}
+}
+}
+printf("\n\n");
+return;
+}
+}
+printf)("\nNo details of ticket no ");
+printf("%d",ticket_no);
+printf(" found!\n\n");
+fclose(fp);
+}
+int cancel_ticket(int ticket_no)
+{
+FILE*fp1=fopen("d:\\railway reservation system\\bookings.dat","rb");
+int(fp1==NULL)
+{
+printf("\nNo bookings done yet");
+return 1;
+}
+FILE*fp2=fopen("d:\\railway reservation system\\ticket.dat","wb");
+Passenger pr;
+int found=0;
+while(fread(&pr,sizeof(pr),1,fp1)==1)
+{
+if(pr.ticketno!=ticket_no)
+{
+fwrite(&pr,sizeof(pr),1,fp2);
+}
+else
+{
+found=1;
+}
+}
+fclose(fp1);
+fclose(fp2);
+if(found==0)
+{
+remove("d:\\railway reservation system\\ticket.dat");
+}
+else
+{
+remove("d:\\railway reservation system\\bookings.dat");
+rename("d:\\railway reservation system\\ticket.dat","d:\\railway reservation system\\bookings.dat");
+}
+return found;
+clrscr();
+}
+char* accept_mob_no()
+{
+static char mob_no[11];
+int valid;
+gotoxy(55,1);
+printf("Press 0 to exit");
+gotoxy(1,1);
+printf("Enter Mobile number:");
+do
+{
+fflush(stdin);
+scanf("%s",mob_no);
+if(strcmp(mob_no,"0")==0)
+{
+gotoxy(1,22);
+printf("\t\t\t\t\t\t");
+gotoxy(1,22);
+printf("Cancelling input...!");
+return NULL;
+}
+vlid=check_mob_no(mob_no);
+if(valid==0)
+{
+gotoxy(1,22);
+printf("\t\t\t\t\t\t\t");
+gotoxy(1,22);
+printf("Error! Invalid Mobile no");
+getch();
+gotoxy(21,1);
+printf("\t\t\t");
+gotoxy(21,1);
+}
+}while(valid==0);
+clrscr();
+return mob_no;
+}
+int* get_ticket_no(char *p_mob_no)
+{
+int count=0;
+FILE *fp;
+fp=fopen("d:\\railway reservation system\\bookings.dat","rb");
+if(fp==NULL)
+{
+return NULL;
+}
+Passenger pr;
+while(fread(&pr,sizeof(pr),1,fp)==1)
+{
+if(strcmp(pr.mob_no,p_mob_no)==0)
+{
+count++;
+}
+}
+if(count==0)
+{
+fclose(fp);
+return NULL;
+}
+rewind(fp);
+int *p=(int *)malloc((count+1)*sizeof(int));
+int i=0;
+while(fread(&pr,sizeof(pr),1,fp)==1)
+{
+if(strcmp(pr.mob_no,p_mob_no)==0)
+{
+*(p+i)=pr.ticketno;
+i++;
+}
+}
+*(p+i)=-1;
+fclose(fp);
+return p;
+}
+void view_all_tickets(char*pmob_no, int*pticket_no)
+{
+if(pticket_no==NULL)
+{
+printf("\nSorry! No tickets booked against moblie no. ");
+printf("%s\n\n",pmob_no);
+return;
+}
+printf("\nFollowing tickets are booked for mobile no. ");
+printf("%s",pmob_no);
+int i;
+printf("\n\nTicket No:\n");
+printf("--------------");
+for(i=0;*(pticket_no+i)!=-1;i++)
+{
+printf("\n%d",*(pticket_no+i));
+}
+printf("\n\n");
+free(pticket_no);
+}
+char* accept_train_no()
+{
+static char train_no[10];
+int valid;
+gotoxy(55,1);
+printf("Press 0 to exit");
+gotoxy(1,1);
+printf("Enter train number:");
+do
+{
+fflush(stdin);
+scanf("%s",train_o);
+if(strcmp(train_no,"0")==0);
+{
+gotoxy(1,22);
+printf("\t\t\t\t\t\t");
+gotoxy(1,22);
+printf("Cancelling Input...!");
+return NULL;
+}
+valid=check_train_no(train_no);
+if(valid==0)
+{
+gotoxy(1,22);
+printf("Error! Invalid Train No.");
+getch();
+gotoxy(20,1);
+printf("\t\t\t\t");
+gotoxy(20,1);
+}
+}while(valid==0);
+clrscr();
+return train_no;
+}
+void view_bookings(char *train_no)
+{
+int found=0;
+int i;
+FILE*fp=fopen("d:\\railway reservation system\bookings.dat","rb");
+Passenger pr;
+printf("TICKET NO\tCLASS\tNAME\t\tGENDER\tAGE\t\tMOBILE NO\n");
+for(i=1;i<=80;i++)
+{
+printf("-");
+}
+int row=3;
+while(fread(&pr,sizeof(pr),1,fp)==1)
+{
+if(strcmp(pr.train_no,train_no)==0)
+{
+printf("%d\t\t%c\t%s",pr.ticketno,pr.p_class,pr.p_name);
+gotoxy(41,row++);
+printf("%c\t%d\t\t%s\n",pr.gender,pr.age,pr.mob_no);
+found=1;
+}
+}
+for(i=1;i<=80;i++)
+{
+printf("-");
+}
+if(!found)
+{
+clrscr();
+printf("\nNo details of train no ");
+printf("%s",train_no);
+printf(" found!");
+}
+printf("\n\n");
+fclose(fp);
+}
+void view_all_bookings()
+{
+int i;
+FILE*fp=fopen("d:\\railway reservation system\\bookings.dat","rb");
+if(fp==NULL)
+{
+printf("\nNo bookings done yet!\n");
+return;
+}
+Passenger pr;
+printf("TRAIN NO\tTICKET NO\tCLASS\tNAME\t\tAGE\tMOBILE NO\n");
+for(i=1;i<=80;i++)
+{
+printf("-");
+}
+int row=3;
+while(fread(&pr,sizeof(pr),1,fp)==1)
+{
+printf("%s\t\t%d\t\t%c\t%s",pr.train_no,pr.ticketno,pr.p_class,pr.p_name);
+gotoxy(57,row++);
+printf("%d\t%s\n",pr.age,pr.mob_no);
+}
+for(i=1;i<=80;i++)
+{
+printf("-");
+}
+printf("\n");
+fclose(fp);
+}
+int cancel_train(char *train_no)
+{
+FILE*fp1=fopen("d:\\railway reservation system\\bookings.dat","rb");
+if(fp1==NULL)
+{
+printf("\nNo Trains done yet");
+return -1;
+}
+FILE*fp2=fopen("D:\\railway reservation system\\train.dat","wb+");
+Passenger pr;
+int found=0;
+while(fread(&pr,sizeof(pr),1,fp1)==1)
+{
+if(strcmp(pr.train_no.train_no!=0)
+{
+fwrite(&pr,sizeof(pr),1,fp2);
+}
+else
+{
+found=1;
+}
+}
+fclose(fp1);
+fclose(fp2);
+if(found==0)
+{
+remove("d:\\railway reservation system\\train.dat");
+}
+else
+{
+remove("d:\\railway reservation system\\bookings.dat");
+rename("d:\\railway reservation system\\train.dat","d:\\railway reservation system\\bookings.dat");
+}
+return found;
+clrscr();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

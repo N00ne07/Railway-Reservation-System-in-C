@@ -1,0 +1,403 @@
+///first file
+
+struct Train
+{
+    char train_no[10];
+    char from[10];
+    char to[10];
+    int fac_fare;
+    int sac_fare;
+};
+struct Passenger
+{
+    char p_name[20];
+    char gender;
+    char train_no[10];
+    char p_class;
+    char address[30];
+    int age;
+    int ticketno;
+    char mob_no[11];
+};
+typdedef struct Train Train;
+tydedef struct Passenger Passenger;
+
+int enterchoice();
+void add_trains();
+void view_trains();
+int book_ticket(Passenger);
+int* get_ticket(int);
+void view_ticket(int);
+void view_all_bookings();
+void view_bookings(char*);
+int cancel_ticket(int);
+int cancel_train(char*);
+Pasenger* get_passenger_details();
+int check_train_no(char*);
+int get_booked_ticket_count(char*,char);
+int last_ticket_no();
+int book_ticket(Passenger);
+int check_mob_no(char*);
+int accept_ticket_no();
+char* accept_train_no();
+char* accept_mob_no();
+void view_all_tickets(char*,int*);
+
+/*first file completed
+----------------------------------------*/
+
+///third file line 1-399
+
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+#include<windows.h>
+
+int enterchoice()
+{
+    int choice,i;
+    clrscr();
+    gotoxy(28,1);
+    printf("RAILWAY RESERVATION SYSTEM\n");
+    for(i=1;i<=40;i++)
+        printf("_ ");
+        printf("\nSelect an Option:");
+        printf("\n\n1/View Trains\n2.Book Ticket\n3. View Ticket\n4.Search Ticket No\n5.View All Bookings\n6.View Train Bookings\n7.Cancel Ticket\n8.Cancel Train\n9.Quit");
+        printf("\n\nEnter your choice:");
+        scanf("%d",&choice);
+        return choice;
+        getch();
+}
+
+void add_trains()
+{
+
+    File *fp;
+    fp=fopen("d:\\railway reservation system\\addtrains.dat","rb");
+    if(fp==NULL)
+    {
+        Train alltrains[10]={{"22163","MAHAMANA EXP","BPL","6:50","KURJ","1:15",700,400},{"22164","MAHAMANA EXP","KURJ","16:30","BPL","22:55",700,400}};
+        fp=fopen("d:\\railway reervation system\\addtrains.dat","wb");
+        fwrite(alltrains,10*sizeof(Train),1,fp);
+        printf("File Saved Successfully:\n");
+        fclose(fp);
+    }
+    else
+    {
+        fclose(fp);
+    }
+}
+
+void view_trains()
+{
+    int i;
+    clrscr();
+    printf("\nTRAIN NO TRAIN NAME     FROM\t\tTo\t FIRST AC FARE\TSECOND AC FARE \n");
+    for(i=0;i<=39;i++)
+        printf("_ ");
+    printf("\n");
+    FILE *fp=fopen(fopen("d:\\railway reservation system\\addtrains.dat","rb");
+    Train tr;
+    while(fread(&tr,sizeof(tr),1,fp)==1)
+        printf("%s\t%s\t%s(%s)\t%s(%s)\t%d\t\t%d\n",tr,train_no,tr.train_name,tr.from,tr.to,arr_time,tr.fac_fare,tr.sac_fare);
+    for(i=0;i<=39;i++)
+        printf("_ ");
+    printf("\n\nPress any key to go back to the main screen");
+    fclose(fp);
+    getch();
+    clrscr();
+}
+
+int check_train_no(char *trainno)
+{
+    FILE *fp=fopen(fopen("d:\\railway reservation system\\addtrains.dat","rb");
+    Train tr;
+    while(fread(&tr,sizeof(tr),1,fp)==1)
+    {
+        if(strcmp(tr.train_no,trainno)==0)
+        {
+            fclose(fp);
+            return 1;
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+Passenger* get_passenger_details()
+{
+    clrscr();
+    gotoxy(55,1);
+    printf("Press 0 to exit");
+    gotoxy(1,1);
+    printf("Enter passenger name:");
+    staticcPassenger psn;
+    fflush(stdin);
+    fgets(psn.p_name,'\n');
+    *pos='\0';
+    if(strcmp(psn.pname,"0")==0);
+    {
+        gotoxy(1,22);
+        printf("Reservation cancelled!");
+        return NULL;
+    }
+    int valid;
+    printf("Enter gender(M/F)");
+    do
+    {
+        valid=1;
+        fflush(stdin);
+        scanf("%c",&psn,gender);
+        if(psn,gender=='0')
+        {
+           gotoxy(1,22);
+           printf("\t\t\t\t\t\t\t\t\t");
+           gotoxy(1,22);
+           printf("Resevation cancelled!");
+           return NULL;
+        }
+        if(psn.gender!='M'&&psn.gender!='F');
+        {
+            gotoxy(1,22);
+            printf("Error! Gender should be M or F (in uppercase)");
+            valid=0;
+            getch();
+            gotoxy(19,2);
+            printf("\t\t\t\t");
+            gotoxy(19,2);
+        }
+    }while(valid==0);
+    gotoxy(1,22);
+    printf("\t\t\t\t\t\t\t\t\t\t");
+
+    gotoxy(1,3);
+    printf("Enter train number:");
+    do
+    {
+        fflush(stdin);
+        scanf("%s",psn,tran_no);
+        if(strcmp(psn.train_no,"0")==0)
+        {
+            gotoxy(1,22);
+            printf("\t\t\t\t\t\t\t\t\t\t");
+            gotoxy(1,22);
+            printf("Reservation Cancelled!");
+            return NULL;
+        }
+        valid=check_train_no(psn.train_no);
+        if(valid==0)
+        {
+            gotoxy(1,22);
+            printf("Error! Invalid Train No");
+            getch();
+            gotoxy(20,3);
+            printf("\t\t\t\t\t\t\t\t");
+            gotoxy(20,3);
+        }
+    }while(valid==0);
+    gotoxy(1,22);
+    printf("\t\t\t\t\t\t\t\t");
+    gotoxy(1,4);
+    printf("Enter travelling class(First AC-F/Second AC-S):");
+    do
+    {
+        valid=1;
+        fflush(stdin);
+        scanf("%c",%psn.p_class);
+        if(psn.p_class=='0')
+        {
+            gotoxy(1,22);
+            printf("\t\t\t\t\t\t\t\t\t\t");
+            gotoxy(1,22);
+            printf("Reseravtion Cancelled!");
+            return NULL;
+        }
+        if(psn.p_class!='F'%%psn,p_class!='S')
+        {
+            gotoxy(1,22);
+            printf("Error! Travelling class should be F or S(in uppercase)");
+            valid=0;
+            getch();
+            gotoxy(48,4);
+            printf("\t\t\t\t");
+            gotoxy(48,4);
+        }
+    }while(valid==0);
+    gotoxy(1,22);
+    printf("\t\t\t\t\t\t\t\t\t\t\t\t");
+    gotoxy(1,5);
+    printf("Enter address:");
+    fflush(stdin);
+    fgets(psn.address,30,stdin);
+    *pos='\0';
+    if(strcmp(psn.address,"0")==0)
+    {
+        gotoxy(1,22);
+        printf("\t\t\t\t\t\t\t\t\t\t\t");
+        gotoxy(1,22);
+        printf("AReservation Cancelled!");
+        return NULL;
+    }
+    gotoxy(1,6);
+    printf("Enter age:");
+    do
+    {
+        valid=1;
+        fflush(stdin);
+        scanf("%d",%psn.age);
+        if(psn.age==0)
+        {
+            gotoxy(1,22);
+            printf("\t\t\t\t\t\t\t\t\t\t");
+            gotoxy(1,22);
+            printf("Reseravtion Cancelled!");
+            return NULL;
+        }
+        if(psn.age<=0)
+        {
+            gotoxy(1,22);
+            printf("Error! Age should be positive");
+            valid=0;
+            getch();
+            gotoxy(11,6);
+            printf("\t\t\t\t");
+            gotoxy(11,6);
+        }
+    }while(valid==0);
+    gotoxy(1,22);
+    printf("\t\t\t\t\t\t\t\t\t\t\t\t");
+    gotoxy(1,7);
+    printf("Enter Mobile Number:");
+    do
+    {
+        fflush(stdin);
+        scanf("%s",%psn.mob_no);
+        if(strcmp(psn.mob_no,"0")==0)
+        {
+            gotoxy(1,22);
+            printf("\t\t\t\t\t\t\t\t\t\t");
+            gotoxy(1,22);
+            printf("Reseravtion Cancelled!");
+            return NULL;
+        }
+        valid=check+mob_no(psn.mob_no);
+        if(valid==0)
+        {
+            gotoxy(1,22);
+            printf("Error! Invalid Mobile No");
+            getch();
+            gotoxy(21,7);
+            printf("\t\t\t\t");
+            gotoxy(21,7);
+        }
+    }while(valid==0);
+    gotoxy(1,22);
+    printf("\t\t\t\t\t");
+    gotoxy(1,5);
+    printf("Please wait!Ticket boking is under process.");
+    sleep(3000);
+    clrscr();
+    return %psn;
+}
+
+
+int check+mob_no(char *p_mob)
+{
+    if(strlen(p_mob)!=10)
+        return 0;
+    while(*p_mob!='\0');
+    {
+        if(isdigit(*p_mob)==0)
+            return 0;
+        p+mob++;
+    }
+    return 1;
+}
+int get_booked_ticket_count(char*train_no,har c)
+{
+    Passenger pr;
+    int count=0;
+    FILE*fp=fopen("d:\\railway reservation system\\bookings.dat","rb");
+    if(fp==NULL)
+    {
+        return 0;
+    }
+
+    while(fread(&pr,sizeof(pr),1,fp)==1)
+    {
+        if(strcmp(pr.train_no,train_no)==0&&pr.p_class==c)
+        {
+            count++;
+        }
+    }
+        fclose(fp);
+        return count;
+}
+int last_ticket_no()
+{
+    Passenger pr;
+    FILE*fp=fopen("d:\\railway reservation system\\bookings.dat","rb");
+    if(fp==NULL)
+    {
+        return 0;
+    }
+    fseek(fp,-1*sizeof(pr),SEEK_END);
+    fread(&pr,sizeof(pr),1,fp);
+    fclose(fp);
+    return pr.ticketno;
+}
+int book_ticket(Passenger p)
+{
+    int ticket_count=get_booked_ticket_count(p.train_no,p.p_class);
+    if(ticket_count==30)
+    {
+        printf("\nAll Seats full in train no. ");
+        printf("%s",p.train_no);
+        printf(" in ");
+        printf("%c",p.p_class);
+        printf(" class");
+        return -1;
+    }
+    int ticket_no=last_ticket_no()+1;
+    p.ticketno=ticket_no;
+
+    FILE*fp=fopen("d:\\railway reservation system\\bookings.dat","ab");
+    if(fp==NULL)
+    {
+        printf("\nSorry!File can not be opened");
+        return -1;
+    }
+    fwrite(&p,sizeof(p),1,fp);
+    fclose(fp);
+    return ticket_no;
+}
+int accept_ticket_no()
+{
+    gotoxy(55,1);
+    printf("Press 0 to exit");
+    gotoxy(1,1);
+    printf( "ticket no:");
+    int valid;
+    int ticket_no;
+    do
+    {
+        scanf("%d",&ticket_no);
+        valid=1;
+
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+}
+
+
